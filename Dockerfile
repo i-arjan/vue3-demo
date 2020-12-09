@@ -22,7 +22,9 @@ RUN npm install --registry=https://registry.npm.taobao.org
 COPY . /app
 
 # 打包构建
-RUN npm run build
+RUN npm run build \     
+&& cp -r dist/* /var/www/html \     
+&& rm -rf /app
 
 # 拷贝配置文件到nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
@@ -31,8 +33,3 @@ EXPOSE 80
 
 # 启动nginx，关闭守护式运行，否则容器启动后会立刻关闭
 CMD ["nginx", "-g", "daemon off;"]
-
-作者：深红
-链接：https://juejin.cn/post/6844903956305412109
-来源：掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
